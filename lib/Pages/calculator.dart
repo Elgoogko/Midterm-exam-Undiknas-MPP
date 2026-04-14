@@ -14,15 +14,11 @@ class Calculator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            ResultDisplay(),
-            Expanded(child: NumericPad()),
-          ],
-        ),
-      ),
+    return Column(
+        children: [
+          ResultDisplay(),
+          Expanded(child: NumericPad()),
+        ],
     );
   }
 }
