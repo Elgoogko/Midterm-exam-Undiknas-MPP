@@ -1,4 +1,5 @@
 import 'package:basic_app/Pages/Calculator.dart';
+import 'package:basic_app/Pages/investement_tools.dart';
 import 'package:basic_app/Pages/specific_tools.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +38,11 @@ class _RootShellState extends State<RootShell> {
   int _currentIndex = 0;
 
   // Toutes tes pages ici — sans Scaffold, sans SafeArea
-  final List<Widget> _pages = const [Calculator(), SpecificTools()];
+  final List<Widget> _pages = const [
+    Calculator(),
+    SpecificTools(),
+    InvestementTools(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +67,7 @@ class _RootShellState extends State<RootShell> {
               Expanded(
                 child: IconButton(
                   icon: const Icon(Icons.settings),
-                  onPressed: () => setState(() => _currentIndex = 1),
+                  onPressed: () => setState(() => _currentIndex = 2),
                 ),
               ),
             ],
