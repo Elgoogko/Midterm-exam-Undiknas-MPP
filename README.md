@@ -1,7 +1,7 @@
 # Multitor : Multi purposes calculator
 
 "Multitor" is a multi purposes calculator. It allows the user to use multiple functions related to mathematics:
-- [ ] Classic calculator
+- [x] Classic calculator
 - [ ] Scientific calculator (extension of the first one)
 - [ ] Money tools 1: Currency converter (Static conversion)
 - [ ] Money tools 2: Loan calculator

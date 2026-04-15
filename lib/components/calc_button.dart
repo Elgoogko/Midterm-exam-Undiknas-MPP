@@ -16,37 +16,77 @@ class CalcButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Expanded(
-      child: Container(
-        margin: const EdgeInsets.all(8),
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(24), // Style MIUI très arrondi
-          child: Ink(
-            decoration: BoxDecoration(
-              color: bgColor,
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 5,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Center(
-              child: Text(
-                text,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                  color: textColor,
+      child: AspectRatio(
+        aspectRatio: 1.0,
+        child: Container(
+          margin: const EdgeInsets.all(6),
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(24),
+            child: Ink(
+              decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  //TODO Chnage this style to fit theme app
+                  BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.07,
+                        fontWeight: screenWidth > 400
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                        color: textColor,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class NumericPad extends StatelessWidget {
+  final List<List<String>> rows;
+
+  const NumericPad({super.key, required this.rows});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: rows.map((row) {
+        return Expanded(
+          child: Row(
+            children: row.map((btnText) {
+              return CalcButton(
+                text: btnText,
+                bgColor: btnText == '='
+                    ? Colors.orange
+                    : const Color(0xFFF0F0F0),
+                onTap: () => print('Appui sur $btnText'),
+              );
+            }).toList(),
+          ),
+        );
+      }).toList(),
     );
   }
 }

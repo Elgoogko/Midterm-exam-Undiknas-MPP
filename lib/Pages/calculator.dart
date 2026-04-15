@@ -15,10 +15,10 @@ class Calculator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        children: [
-          ResultDisplay(),
-          Expanded(child: NumericPad()),
-        ],
+      children: [
+        ResultDisplay(),
+        Expanded(child: NumericPad(rows: rows)),
+      ],
     );
   }
 }
@@ -32,41 +32,22 @@ class ResultDisplay extends StatefulWidget {
 
 class _ResultDisplayState extends State<ResultDisplay> {
   String _result = '0';
-
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Container(
       padding: const EdgeInsets.all(16),
       alignment: Alignment.centerRight,
-      child: Text(
-        _result,
-        style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-}
-
-class NumericPad extends StatelessWidget {
-  const NumericPad({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: rows.map((row) {
-        return Expanded(
-          child: Row(
-            children: row.map((btnText) {
-              return CalcButton(
-                text: btnText,
-                bgColor: btnText == '='
-                    ? Colors.orange
-                    : const Color(0xFFF0F0F0),
-                onTap: () => print('Appui sur $btnText'),
-              );
-            }).toList(),
+      child: FittedBox(
+        fit: BoxFit.fill,
+        child: Text(
+          _result,
+          style: TextStyle(
+            fontSize: screenWidth * 0.07,
+            fontWeight: FontWeight.bold,
           ),
-        );
-      }).toList(),
+        ),
+      ),
     );
   }
 }
