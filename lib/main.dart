@@ -17,10 +17,22 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         brightness: Brightness.light,
+        iconTheme: IconThemeData(color: Colors.black),
+        buttonTheme: ButtonThemeData(
+          colorScheme: ColorScheme.light(primary: Color(0xFFF0F0F0)),
+        ),
+        textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.black)),
       ),
       darkTheme: ThemeData(
         primarySwatch: Colors.blue,
         brightness: Brightness.dark,
+        iconTheme: IconThemeData(color: Colors.white),
+        buttonTheme: ButtonThemeData(
+          colorScheme: ColorScheme.dark(
+            primary: const Color.fromARGB(221, 44, 44, 44),
+          ),
+        ),
+        textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.white)),
       ),
       home: RootShell(),
     );

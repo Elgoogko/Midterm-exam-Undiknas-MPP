@@ -31,14 +31,14 @@ class NavButton extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(icon, size: screenWidth * 0.07, color: textColor),
+                    Icon(icon, size: screenWidth * 0.07, color: Theme.of(context).iconTheme.color),
                     const SizedBox(height: 4),
                     Text(
                       text,
                       style: TextStyle(
                         fontSize: screenWidth * 0.05,
                         fontWeight: FontWeight.bold,
-                        color: textColor,
+                        color: Theme.of(context).textTheme.bodyMedium?.color ?? textColor,
                       ),
                     ),
                   ],

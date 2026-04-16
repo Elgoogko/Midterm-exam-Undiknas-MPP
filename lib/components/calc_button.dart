@@ -30,9 +30,8 @@ class CalcButton extends StatelessWidget {
                 color: bgColor,
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
-                  //TODO Chnage this style to fit theme app
                   BoxShadow(
-                    color: Colors.black,
+                    color: Theme.of(context).primaryColor.withAlpha(150),
                     blurRadius: 5,
                     offset: const Offset(0, 2),
                   ),
@@ -50,7 +49,9 @@ class CalcButton extends StatelessWidget {
                         fontWeight: screenWidth > 400
                             ? FontWeight.bold
                             : FontWeight.normal,
-                        color: textColor,
+                        color:
+                            Theme.of(context).textTheme.bodyMedium?.color ??
+                            Colors.black,
                       ),
                     ),
                   ),
@@ -80,7 +81,8 @@ class NumericPad extends StatelessWidget {
                 text: btnText,
                 bgColor: btnText == '='
                     ? Colors.orange
-                    : const Color(0xFFF0F0F0),
+                    : Theme.of(context).buttonTheme.colorScheme?.primary ??
+                          Colors.white,
                 onTap: () => print('Appui sur $btnText'),
               );
             }).toList(),
