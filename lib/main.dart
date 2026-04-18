@@ -3,12 +3,27 @@ import 'package:basic_app/Pages/investement_tools.dart';
 import 'package:basic_app/Pages/specific_tools.dart';
 import 'package:flutter/material.dart';
 
+enum AppTheme { light, dark, system }
+
 void main() {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
+
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  ThemeMode _themeMode = ThemeMode.system;
+
+  void _changeTheme(ThemeMode mode) {
+    setState(() {
+      _themeMode = mode;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +39,7 @@ class MainApp extends StatelessWidget {
         textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.black)),
       ),
       darkTheme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
         brightness: Brightness.dark,
         iconTheme: IconThemeData(color: Colors.white),
         buttonTheme: ButtonThemeData(
@@ -34,13 +49,16 @@ class MainApp extends StatelessWidget {
         ),
         textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.white)),
       ),
-      home: RootShell(),
+      themeMode: _themeMode,
+      home: RootShell(onThemeChanged: _changeTheme),
     );
   }
 }
 
 class RootShell extends StatefulWidget {
-  const RootShell({super.key});
+  final Function(ThemeMode) onThemeChanged;
+
+  const RootShell({super.key, required this.onThemeChanged});
 
   @override
   State<RootShell> createState() => _RootShellState();
@@ -49,7 +67,6 @@ class RootShell extends StatefulWidget {
 class _RootShellState extends State<RootShell> {
   int _currentIndex = 0;
 
-  // Toutes tes pages ici — sans Scaffold, sans SafeArea
   final List<Widget> _pages = const [
     Calculator(),
     SpecificTools(),
@@ -72,21 +89,60 @@ class _RootShellState extends State<RootShell> {
               ),
               Expanded(
                 child: IconButton(
-                  icon: const Icon(Icons.settings),
+                  icon: const Icon(Icons.bolt),
                   onPressed: () => setState(() => _currentIndex = 1),
                 ),
               ),
               Expanded(
                 child: IconButton(
-                  icon: const Icon(Icons.settings),
+                  icon: const Icon(Icons.money_sharp),
                   onPressed: () => setState(() => _currentIndex = 2),
                 ),
+              ),
+              Expanded(
+                child: ThemeSelector(onThemeChanged: widget.onThemeChanged),
               ),
             ],
           ),
         ),
       ),
       body: _pages[_currentIndex],
+    );
+  }
+}
+
+class ThemeSelector extends StatelessWidget {
+  final Function(ThemeMode) onThemeChanged;
+
+  const ThemeSelector({super.key, required this.onThemeChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownMenu<ThemeMode>(
+      initialSelection: ThemeMode.system,
+      label: const Text('Theme'),
+      onSelected: (ThemeMode? mode) {
+        if (mode != null) {
+          onThemeChanged(mode);
+        }
+      },
+      dropdownMenuEntries: const [
+        DropdownMenuEntry(
+          value: ThemeMode.light,
+          label: 'Light',
+          leadingIcon: Icon(Icons.light_mode),
+        ),
+        DropdownMenuEntry(
+          value: ThemeMode.dark,
+          label: 'Dark',
+          leadingIcon: Icon(Icons.dark_mode),
+        ),
+        DropdownMenuEntry(
+          value: ThemeMode.system,
+          label: 'System',
+          leadingIcon: Icon(Icons.settings_suggest),
+        ),
+      ],
     );
   }
 }

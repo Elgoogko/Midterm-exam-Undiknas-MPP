@@ -9,7 +9,7 @@ class NavButton extends StatelessWidget {
   const NavButton({
     super.key,
     required this.text,
-    this.textColor = Colors.black, //TODO Change this hard coded value
+    this.textColor = Colors.black, // Default value if no theme provided
     required this.onTap,
     required this.icon,
   });
@@ -31,14 +31,21 @@ class NavButton extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(icon, size: screenWidth * 0.07, color: Theme.of(context).iconTheme.color),
+                    Icon(
+                      icon,
+                      size: screenWidth * 0.07,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
                     const SizedBox(height: 4),
                     Text(
                       text,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: screenWidth * 0.05,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.bodyMedium?.color ?? textColor,
+                        color:
+                            Theme.of(context).textTheme.bodyMedium?.color ??
+                            textColor,
                       ),
                     ),
                   ],

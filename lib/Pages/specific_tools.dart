@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 final List<List<(String, IconData, Widget)>> rows = [
   [
     ('Discount', Icons.discount, Discount()),
-    ('Length conversion', Icons.rule, Discount()),
+    ('Length', Icons.rule, Discount()),
     ('Data', Icons.data_array, Discount()),
   ],
 ];

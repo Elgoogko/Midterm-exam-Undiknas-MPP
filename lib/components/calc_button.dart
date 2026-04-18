@@ -44,6 +44,7 @@ class CalcButton extends StatelessWidget {
                     fit: BoxFit.fill,
                     child: Text(
                       text,
+                      
                       style: TextStyle(
                         fontSize: screenWidth * 0.07,
                         fontWeight: screenWidth > 400
