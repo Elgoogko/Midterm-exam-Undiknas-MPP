@@ -9,8 +9,8 @@ class CalcButton extends StatelessWidget {
   const CalcButton({
     super.key,
     required this.text,
-    this.bgColor = const Color(0xFFF0F0F0), //TODO Chnage this hard coded value
-    this.textColor = Colors.black, //TODO Change this hard coded value
+    this.bgColor = const Color(0xFFF0F0F0),
+    this.textColor = Colors.black,
     required this.onTap,
   });
 
@@ -44,15 +44,12 @@ class CalcButton extends StatelessWidget {
                     fit: BoxFit.fill,
                     child: Text(
                       text,
-                      
                       style: TextStyle(
                         fontSize: screenWidth * 0.07,
                         fontWeight: screenWidth > 400
                             ? FontWeight.bold
                             : FontWeight.normal,
-                        color:
-                            Theme.of(context).textTheme.bodyMedium?.color ??
-                            Colors.black,
+                        color: textColor,
                       ),
                     ),
                   ),
@@ -78,14 +75,33 @@ class NumericPad extends StatelessWidget {
         return Expanded(
           child: Row(
             children: row.map((btnText) {
-              return CalcButton(
-                text: btnText,
-                bgColor: btnText == '='
-                    ? Colors.orange
-                    : Theme.of(context).buttonTheme.colorScheme?.primary ??
-                          Colors.white,
-                onTap: () => print('Appui sur $btnText'),
-              );
+              return btnText == ''
+                  ? Spacer()
+                  : CalcButton(
+                      text: btnText,
+                      textColor:
+                          (btnText == '=' ||
+                              btnText == 'DEL' ||
+                              btnText == 'AC')
+                          ? Color(0xFFF0F0F0)
+                          : Theme.of(
+                                  context,
+                                ).buttonTheme.colorScheme?.onSurface ??
+                                Colors.black,
+                      bgColor:
+                          (btnText == '=' ||
+                              btnText == 'DEL' ||
+                              btnText == 'AC')
+                          ? Theme.of(
+                                  context,
+                                ).buttonTheme.colorScheme?.primary ??
+                                Colors.orange
+                          : Theme.of(
+                                  context,
+                                ).buttonTheme.colorScheme?.surface ??
+                                Color(0xFFF0F0F0),
+                      onTap: () => print('Appui sur $btnText'),
+                    );
             }).toList(),
           ),
         );

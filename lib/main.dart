@@ -30,11 +30,15 @@ class _MainAppState extends State<MainApp> {
     return MaterialApp(
       title: 'Theming app',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.black),
         buttonTheme: ButtonThemeData(
-          colorScheme: ColorScheme.light(primary: Color(0xFFF0F0F0)),
+          colorScheme: ColorScheme.light(
+            surface: Color(0xFFF0F0F0),
+            onSurface: Colors.black,
+            primary: Colors.orange,
+          ),
         ),
         textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.black)),
       ),

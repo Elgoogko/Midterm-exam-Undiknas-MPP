@@ -2,11 +2,11 @@ import 'package:basic_app/components/calc_button.dart';
 import 'package:flutter/material.dart';
 
 final List<List<String>> rows = [
-  ['AC', '()', '%', '/'],
+  ['AC', 'DEL', '%', '/'],
   ['7', '8', '9', 'X'],
   ['4', '5', '6', '-'],
   ['1', '2', '3', '+'],
-  ['0', ',', 'DEL', '='],
+  ['0', ',', '.', '='],
 ];
 
 class Calculator extends StatelessWidget {
