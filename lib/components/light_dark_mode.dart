@@ -2,36 +2,43 @@ import 'package:flutter/material.dart';
 
 class ThemeSelector extends StatelessWidget {
   final Function(ThemeMode) onThemeChanged;
+  final ThemeMode currentMode;
 
-  const ThemeSelector({super.key, required this.onThemeChanged});
+  const ThemeSelector({
+    super.key,
+    required this.onThemeChanged,
+    required this.currentMode,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return DropdownMenu<ThemeMode>(
-      initialSelection: ThemeMode.system,
-      label: const Text('Theme'),
-      onSelected: (ThemeMode? mode) {
-        if (mode != null) {
-          onThemeChanged(mode);
+    // On définit l'icône en fonction du mode actuel
+    IconData themeIcon;
+    switch (currentMode) {
+      case ThemeMode.light:
+        themeIcon = Icons.light_mode;
+        break;
+      case ThemeMode.dark:
+        themeIcon = Icons.dark_mode;
+        break;
+      case ThemeMode.system:
+        themeIcon = Icons.settings_suggest;
+        break;
+    }
+
+    return IconButton(
+      icon: Icon(themeIcon),
+      // Au clic, on fait défiler les modes : System -> Light -> Dark -> System
+      onPressed: () {
+        if (currentMode == ThemeMode.system) {
+          onThemeChanged(ThemeMode.light);
+        } else if (currentMode == ThemeMode.light) {
+          onThemeChanged(ThemeMode.dark);
+        } else {
+          onThemeChanged(ThemeMode.system);
         }
       },
-      dropdownMenuEntries: const [
-        DropdownMenuEntry(
-          value: ThemeMode.light,
-          label: 'Light',
-          leadingIcon: Icon(Icons.light_mode),
-        ),
-        DropdownMenuEntry(
-          value: ThemeMode.dark,
-          label: 'Dark',
-          leadingIcon: Icon(Icons.dark_mode),
-        ),
-        DropdownMenuEntry(
-          value: ThemeMode.system,
-          label: 'System',
-          leadingIcon: Icon(Icons.settings_suggest),
-        ),
-      ],
+      tooltip: 'Changer le thème',
     );
   }
 }

@@ -109,3 +109,29 @@ class NumericPad extends StatelessWidget {
     );
   }
 }
+
+final List<List<String>> calcPad = [
+  ['AC', 'DEL', '%', '/'],
+  ['7', '8', '9', 'X'],
+  ['4', '5', '6', '-'],
+  ['1', '2', '3', '+'],
+  ['0', ',', '.', '='],
+];
+
+final List<List<String>> classicPad = [
+  ['7', '8', '9', 'AC'],
+  ['4', '5', '6', 'DEL'],
+  ['1', '2', '3', ''],
+  ['', '0', '.', ''],
+];
+
+class ChoosePad extends StatelessWidget {
+  final String type;
+
+  const ChoosePad({super.key, required this.type});
+
+  @override
+  Widget build(BuildContext context) {
+    return NumericPad(rows: type == 'calc' ? calcPad : classicPad);
+  }
+} 

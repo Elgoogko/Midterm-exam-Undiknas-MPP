@@ -1,12 +1,6 @@
 import 'package:basic_app/components/calc_button.dart';
+import 'package:basic_app/components/common_app_bar.dart';
 import 'package:flutter/material.dart';
-
-final List<List<String>> pad = [
-  ['7', '8', '9', 'AC'],
-  ['4', '5', '6', 'DEL'],
-  ['1', '2', '3', ''],
-  ['', '0', '.', ''],
-];
 
 class Discount extends StatelessWidget {
   const Discount({super.key});
@@ -15,7 +9,7 @@ class Discount extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title: const Text('Discount Calculator')),
+      appBar: CommonAppBar(title: 'Discount Calculator'),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -35,21 +29,44 @@ class Discount extends StatelessWidget {
           const SizedBox(height: 20),
           Text(
             'You save 0',
-            style: Theme.of(context).textTheme.headlineMedium,
+            style: TextStyle(
+              fontSize: (screenWidth * 0.04).clamp(4, 38),
+              fontWeight: FontWeight.bold,
+            ),
             textAlign: TextAlign.center,
           ),
-          Expanded(flex: 3, child: NumericPad(rows: pad)),
+          Expanded(flex: 3, child: ChoosePad(type: 'classic')),
         ],
       ),
     );
   }
 
   Row _buildRow(BuildContext context, String rText, String lText) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(rText, style: Theme.of(context).textTheme.headlineMedium),
-        Text(lText, style: Theme.of(context).textTheme.headlineMedium),
+        Text(
+          rText,
+          style: TextStyle(
+            fontSize: screenWidth * 0.04,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          lText,
+          style: TextStyle(
+            fontSize: (screenWidth * 0.04).clamp(4, 38),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          lText,
+          style: TextStyle(
+            fontSize: (screenWidth * 0.04).clamp(4, 38),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ],
     );
   }
