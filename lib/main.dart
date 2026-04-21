@@ -57,6 +57,7 @@ class _MainAppState extends State<MainApp> {
     return MaterialApp(
       title: 'Theming app',
       theme: ThemeData(
+        primaryColor: _colors[_currentColorIndex],
         primarySwatch: _colors[_currentColorIndex],
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.grey[800]),
@@ -67,13 +68,26 @@ class _MainAppState extends State<MainApp> {
             primary: _colors[_currentColorIndex],
           ),
         ),
-        textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.black)),
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(color: Colors.black),
+          headlineLarge: TextStyle(
+            color: Colors.black,
+            fontSize: 100,
+            fontWeight: FontWeight.w600,
+          ),
+          displaySmall: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
         appBarTheme: AppBarTheme(
-          backgroundColor: _colors[_currentColorIndex],
-          foregroundColor: Colors.white,
+          backgroundColor: Colors.grey[150],
+          foregroundColor: Colors.grey[500],
         ),
       ),
       darkTheme: ThemeData(
+        primaryColor: _colors[_currentColorIndex],
         primarySwatch: _colors[_currentColorIndex],
         brightness: Brightness.dark,
         iconTheme: IconThemeData(color: Colors.grey[400]),
@@ -84,7 +98,18 @@ class _MainAppState extends State<MainApp> {
             onSurface: Colors.white,
           ),
         ),
-        textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.white)),
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(color: Colors.white),
+          headlineLarge: TextStyle(
+            color: Colors.white,
+            fontSize: 100,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey[800],
+          foregroundColor: Colors.grey[400],
+        ),
       ),
       themeMode: _themeMode,
       home: RootShell(
@@ -139,77 +164,97 @@ class _RootShellState extends State<RootShell> {
           return Scaffold(
             body: Row(
               children: [
-                // Sidebar avec navigation + contrôles
-                SizedBox(
-                  width: 200, // Ajuste la largeur selon tes besoins
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: NavigationRail(
-                          selectedIndex: _currentIndex,
-                          onDestinationSelected: (index) {
-                            setState(() => _currentIndex = index);
-                          },
-                          destinations: [
-                            NavigationRailDestination(
-                              icon: const Icon(Icons.calculate),
-                              label: const Text('Calc'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).appBarTheme.backgroundColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: NavigationRail(
+                              backgroundColor: Theme.of(
+                                context,
+                              ).appBarTheme.backgroundColor,
+                              selectedIndex: _currentIndex,
+                              onDestinationSelected: (index) {
+                                setState(() => _currentIndex = index);
+                              },
+                              destinations: [
+                                NavigationRailDestination(
+                                  icon: Icon(
+                                    Icons.calculate,
+                                    color: _currentIndex == 0
+                                        ? Theme.of(context).primaryColor
+                                        : Theme.of(
+                                            context,
+                                          ).appBarTheme.foregroundColor,
+                                  ),
+                                  label: const Text('Calc'),
+                                ),
+                                NavigationRailDestination(
+                                  icon: Icon(
+                                    Icons.bolt,
+                                    color: _currentIndex == 1
+                                        ? Theme.of(context).primaryColor
+                                        : Theme.of(
+                                            context,
+                                          ).appBarTheme.foregroundColor,
+                                  ),
+                                  label: const Text('Specific tools'),
+                                ),
+                                NavigationRailDestination(
+                                  icon: Icon(
+                                    Icons.money_sharp,
+                                    color: _currentIndex == 2
+                                        ? Theme.of(context).primaryColor
+                                        : Theme.of(
+                                            context,
+                                          ).appBarTheme.foregroundColor,
+                                  ),
+                                  label: const Text('Investement Tools'),
+                                ),
+                              ],
                             ),
-                            NavigationRailDestination(
-                              icon: const Icon(Icons.bolt),
-                              label: const Text('Specific tools'),
-                            ),
-                            NavigationRailDestination(
-                              icon: const Icon(Icons.money_sharp),
-                              label: const Text('Investement Tools'),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // Divider optionnel
-                      const Divider(),
-                      // Contrôles theme/couleur
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              width: double.infinity,
-                              child: ThemeSelector(
+                          ),
+                          const Divider(),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ThemeSelector(
                                 onThemeChanged: widget.onThemeChanged,
                                 currentMode: widget.currentThemeMode,
                               ),
-                            ),
-                            const SizedBox(height: 12),
-                            SizedBox(
-                              width: double.infinity,
-                              child: ColorThemeSelector(
+                              const SizedBox(height: 12),
+                              ColorThemeSelector(
                                 onPrimaryColorChanged:
                                     widget.onPrimaryColorChanged,
                                 colors: widget.colors,
                                 names: widget.names,
                                 currentIndex: widget.currentColorIndex,
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                        ],
                       ),
-                      const SizedBox(height: 16),
-                    ],
+                    ),
                   ),
                 ),
-                // Contenu principal
                 Expanded(child: _pages[_currentIndex]),
               ],
             ),
           );
         } else {
-          // Layout HORIZONTAL (top bar)
           return Scaffold(
             appBar: AppBar(
               bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(60),
+                preferredSize: Size.zero,
                 child: Row(
                   children: [
                     Expanded(
@@ -250,7 +295,7 @@ class _RootShellState extends State<RootShell> {
                     Expanded(
                       child: ThemeSelector(
                         onThemeChanged: widget.onThemeChanged,
-                        currentMode: widget.currentThemeMode,
+                        currentMode: ThemeMode.system,
                       ),
                     ),
                     Expanded(

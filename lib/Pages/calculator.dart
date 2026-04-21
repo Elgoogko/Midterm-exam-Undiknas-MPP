@@ -24,21 +24,19 @@ class ResultDisplay extends StatefulWidget {
 
 class _ResultDisplayState extends State<ResultDisplay> {
   String _result = '0';
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Container(
+      width: screenWidth * 0.9,
+      height: screenHeight * 0.23,
       padding: const EdgeInsets.all(16),
       alignment: Alignment.centerRight,
       child: FittedBox(
-        fit: BoxFit.fill,
-        child: Text(
-          _result,
-          style: TextStyle(
-            fontSize: screenWidth * 0.07,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        fit: BoxFit.scaleDown,
+        child: Text(_result, style: Theme.of(context).textTheme.headlineLarge),
       ),
     );
   }

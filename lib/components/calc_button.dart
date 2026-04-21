@@ -29,13 +29,6 @@ class CalcButton extends StatelessWidget {
               decoration: BoxDecoration(
                 color: bgColor,
                 borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                    color: Theme.of(context).primaryColor.withAlpha(150),
-                    blurRadius: 5,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
               ),
               child: Center(
                 child: Padding(
@@ -134,4 +127,4 @@ class ChoosePad extends StatelessWidget {
   Widget build(BuildContext context) {
     return NumericPad(rows: type == 'calc' ? calcPad : classicPad);
   }
-} 
+}

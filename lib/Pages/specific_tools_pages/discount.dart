@@ -28,10 +28,15 @@ class Discount extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Text(
-            'You save 0',
+            'You saved 0',
             style: TextStyle(
               fontSize: (screenWidth * 0.04).clamp(4, 38),
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.normal,
+              color:
+                  Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.color?.withValues(alpha: 0.6) ??
+                  Colors.grey[600],
             ),
             textAlign: TextAlign.center,
           ),
@@ -50,14 +55,7 @@ class Discount extends StatelessWidget {
           rText,
           style: TextStyle(
             fontSize: screenWidth * 0.04,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          lText,
-          style: TextStyle(
-            fontSize: (screenWidth * 0.04).clamp(4, 38),
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.normal,
           ),
         ),
         Text(
