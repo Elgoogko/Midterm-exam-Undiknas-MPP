@@ -6,8 +6,8 @@
 - [ ] Money tools 1: Currency converter (Static conversion)
 - [ ] Money tools 2: Loan calculator
 - [ ] Money tools 3: Investement calculator
-- [ ] Specific tools: Discount calculator
-- [ ] Specific tools: lenghts conversion (between meters and feets)
+- [x] Specific tools: Discount calculator
+- [x] Specific tools: lenghts conversion (between meters and feets)
 - [ ] Specific tools: Data conversion (between bits and bytes)
 
 ## How to lauch the application (VScode)
@@ -26,7 +26,11 @@ flutter run
 
 ## Requirements
 
-- [ ] **Theming and styling**: The user must be able to change the theme of the application (colors)
-- [ ] **Responsive design**: The user must be able to use the application on both desktop and smartphone thanks to a responsive layout
-- [ ] **Application Structure**: The application needs to have at least 3 interconnected screens
-- [ ] **Asset Management**: Images must be stored within the project 
+- [x] **Theming and styling**: The user must be able to change the theme of the application (colors)
+- [x] **Responsive design**: The user must be able to use the application on both desktop and smartphone thanks to a responsive layout
+- [x] **Application Structure**: The application needs to have at least 3 interconnected screens
+- [x] **Asset Management**: Images must be stored within the project 
+
+## Informations
+
+This project is made by Bari-joris BOICOS, student number 42530065 for Multi-platform Programming class at Undiknas University, Bali, Indonesia
