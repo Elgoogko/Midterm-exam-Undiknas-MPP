@@ -93,8 +93,9 @@ class NumericPad extends StatelessWidget {
                                   context,
                                 ).buttonTheme.colorScheme?.surface ??
                                 Color(0xFFF0F0F0),
-                      onTap: () => print('Appui sur $btnText'),
-                    );
+                      onTap: () {
+                        // Handle button tap here
+                      });
             }).toList(),
           ),
         );

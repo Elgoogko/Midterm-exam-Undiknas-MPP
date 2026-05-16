@@ -1,18 +1,15 @@
+import 'package:basic_app/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 class ThemeSelector extends StatelessWidget {
-  final Function(ThemeMode) onThemeChanged;
-  final ThemeMode currentMode;
 
-  const ThemeSelector({
-    super.key,
-    required this.onThemeChanged,
-    required this.currentMode,
-  });
+  const ThemeSelector({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // On définit l'icône en fonction du mode actuel
+    final themeProvider = context.watch<ThemeProvider>();
+    final currentMode = themeProvider.themeMode;
     IconData themeIcon;
     switch (currentMode) {
       case ThemeMode.light:
@@ -28,17 +25,16 @@ class ThemeSelector extends StatelessWidget {
 
     return IconButton(
       icon: Icon(themeIcon),
-      // Au clic, on fait défiler les modes : System -> Light -> Dark -> System
       onPressed: () {
         if (currentMode == ThemeMode.system) {
-          onThemeChanged(ThemeMode.light);
+          themeProvider.changeTheme(ThemeMode.light);
         } else if (currentMode == ThemeMode.light) {
-          onThemeChanged(ThemeMode.dark);
+          themeProvider.changeTheme(ThemeMode.dark);
         } else {
-          onThemeChanged(ThemeMode.system);
+          themeProvider.changeTheme(ThemeMode.system);
         }
       },
-      tooltip: 'Changer le thème',
+      tooltip: 'Change theme',
     );
   }
 }

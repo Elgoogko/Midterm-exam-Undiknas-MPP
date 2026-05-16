@@ -1,4 +1,4 @@
-import 'package:basic_app/Pages/investement_tools/image_test.dart';
+import 'package:basic_app/screens/investement_tools/image_test.dart';
 import 'package:basic_app/components/nav_button.dart';
 import 'package:flutter/material.dart';
 

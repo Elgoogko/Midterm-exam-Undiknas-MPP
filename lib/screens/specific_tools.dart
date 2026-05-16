@@ -1,6 +1,6 @@
-import 'package:basic_app/Pages/specific_tools_pages/data_conversion.dart';
-import 'package:basic_app/Pages/specific_tools_pages/discount.dart';
-import 'package:basic_app/Pages/specific_tools_pages/length_conversion.dart';
+import 'package:basic_app/screens/specific_tools_pages/data_conversion.dart';
+import 'package:basic_app/screens/specific_tools_pages/discount.dart';
+import 'package:basic_app/screens/specific_tools_pages/length_conversion.dart';
 import 'package:basic_app/components/nav_button.dart';
 import 'package:flutter/material.dart';
 
