@@ -1,5 +1,7 @@
 import 'package:basic_app/components/calc_button.dart';
+import 'package:basic_app/providers/calculator_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Calculator extends StatelessWidget {
   const Calculator({super.key});
@@ -15,18 +17,13 @@ class Calculator extends StatelessWidget {
   }
 }
 
-class ResultDisplay extends StatefulWidget {
+class ResultDisplay extends StatelessWidget {
   const ResultDisplay({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ResultDisplayState();
-}
-
-class _ResultDisplayState extends State<ResultDisplay> {
-  String _result = '0';
-
-  @override
   Widget build(BuildContext context) {
+    String result = context.watch<CalculatorProvider>().equation;
+
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Container(
@@ -36,7 +33,7 @@ class _ResultDisplayState extends State<ResultDisplay> {
       alignment: Alignment.centerRight,
       child: FittedBox(
         fit: BoxFit.scaleDown,
-        child: Text(_result, style: Theme.of(context).textTheme.headlineLarge),
+        child: Text(result, style: Theme.of(context).textTheme.headlineLarge),
       ),
     );
   }

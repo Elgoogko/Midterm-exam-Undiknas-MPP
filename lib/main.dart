@@ -1,14 +1,14 @@
+import 'package:basic_app/providers/calculator_provider.dart';
 import 'package:basic_app/providers/theme_provider.dart';
 import 'package:basic_app/screens/root_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-enum AppTheme { light, dark, system }
-
 void main() {
   runApp(
       MultiProvider(providers:  [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => CalculatorProvider()),
       ], child: const MainApp())
   );
 }

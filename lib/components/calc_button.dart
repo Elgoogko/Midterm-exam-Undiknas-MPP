@@ -1,4 +1,6 @@
+import 'package:basic_app/providers/calculator_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CalcButton extends StatelessWidget {
   final String text;
@@ -94,8 +96,9 @@ class NumericPad extends StatelessWidget {
                                 ).buttonTheme.colorScheme?.surface ??
                                 Color(0xFFF0F0F0),
                       onTap: () {
-                        // Handle button tap here
-                      });
+                        context.read<CalculatorProvider>().handleTap(btnText);
+                      },
+                    );
             }).toList(),
           ),
         );
