@@ -1,3 +1,4 @@
+import 'package:basic_app/providers/history_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 
@@ -7,9 +8,9 @@ class CalculatorProvider extends ChangeNotifier {
 
   String get equation => _equation;
   String get result => _result;
-
-  List<String> get history => [];
-
+  final HistoryProvider historyProvider;
+  
+  CalculatorProvider({required this.historyProvider});
   /// Handle button tap and update the equation and result accordingly
   /// @param buttonText the text of the button that was tapped
   void handleTap(String buttonText) {
@@ -60,12 +61,9 @@ class CalculatorProvider extends ChangeNotifier {
     }
   }
 
-  void addToHistory(String entry) {
-    history.add(entry);
-    notifyListeners();
-  }
-
   String _evaluateMathExpression(String expression) {
+
+
     try {
       String finalExpression = expression.replaceAll('X', '*');
       finalExpression = finalExpression.replaceAll(',', '.');
@@ -82,7 +80,8 @@ class CalculatorProvider extends ChangeNotifier {
       } else {
         r = eval.toString();
       }
-      addToHistory(r);
+
+      historyProvider.addToHistory("Calculator", "$_equation = $r");
       _equation = r;
 
       return r;

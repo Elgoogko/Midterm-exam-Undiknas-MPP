@@ -1,4 +1,5 @@
 import 'package:basic_app/providers/calculator_provider.dart';
+import 'package:basic_app/providers/history_provider.dart';
 import 'package:basic_app/providers/theme_provider.dart';
 import 'package:basic_app/screens/root_shell.dart';
 import 'package:flutter/material.dart';
@@ -6,15 +7,29 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-      MultiProvider(providers:  [
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => HistoryProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => CalculatorProvider()),
-      ], child: const MainApp())
+        ChangeNotifierProxyProvider<HistoryProvider, CalculatorProvider>(
+          create: (context) => CalculatorProvider(
+            historyProvider: Provider.of<HistoryProvider>(
+              context,
+              listen: false,
+            ),
+          ),
+          update: (context, history, previousCalculator) =>
+              CalculatorProvider(historyProvider: history),
+        ),
+      ],
+      child: const MainApp(),
+    ),
   );
 }
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +91,7 @@ class MainApp extends StatelessWidget {
         ),
       ),
       themeMode: Provider.of<ThemeProvider>(context).themeMode,
-      home:const RootShell(),
+      home: const RootShell(),
     );
   }
 }

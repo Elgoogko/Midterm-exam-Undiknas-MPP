@@ -1,12 +1,13 @@
 import 'package:basic_app/components/light_dark_mode.dart';
 import 'package:basic_app/components/primary_color_selector.dart';
 import 'package:basic_app/screens/calculator.dart';
+import 'package:basic_app/screens/history.dart';
 import 'package:basic_app/screens/investement_tools.dart';
 import 'package:basic_app/screens/specific_tools.dart';
 import 'package:flutter/material.dart';
 
 class RootShell extends StatefulWidget {
-  const RootShell({super.key,});
+  const RootShell({super.key});
 
   @override
   State<RootShell> createState() => _RootShellState();
@@ -19,11 +20,18 @@ class _RootShellState extends State<RootShell> {
     Calculator(),
     SpecificTools(),
     InvestementTools(),
+    History(),
+  ];
+
+  final List<Map<String, IconData>> navIcons = [
+    {'Calc': Icons.calculate},
+    {'Specific tools': Icons.bolt},
+    {'Investement Tools': Icons.money_sharp},
+    {'History': Icons.history},
   ];
 
   @override
   Widget build(BuildContext context) {
-
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWideScreen = constraints.maxWidth > 600;
@@ -54,39 +62,18 @@ class _RootShellState extends State<RootShell> {
                                 setState(() => _currentIndex = index);
                               },
                               destinations: [
-                                NavigationRailDestination(
-                                  icon: Icon(
-                                    Icons.calculate,
-                                    color: _currentIndex == 0
-                                        ? Theme.of(context).primaryColor
-                                        : Theme.of(
-                                            context,
-                                          ).appBarTheme.foregroundColor,
+                                for (int i = 0; i < navIcons.length; i++)
+                                  NavigationRailDestination(
+                                    icon: Icon(
+                                      navIcons[i].values.first,
+                                      color: _currentIndex == i
+                                          ? Theme.of(context).primaryColor
+                                          : Theme.of(
+                                              context,
+                                            ).appBarTheme.foregroundColor,
+                                    ),
+                                    label: Text(navIcons[i].keys.first),
                                   ),
-                                  label: const Text('Calc'),
-                                ),
-                                NavigationRailDestination(
-                                  icon: Icon(
-                                    Icons.bolt,
-                                    color: _currentIndex == 1
-                                        ? Theme.of(context).primaryColor
-                                        : Theme.of(
-                                            context,
-                                          ).appBarTheme.foregroundColor,
-                                  ),
-                                  label: const Text('Specific tools'),
-                                ),
-                                NavigationRailDestination(
-                                  icon: Icon(
-                                    Icons.money_sharp,
-                                    color: _currentIndex == 2
-                                        ? Theme.of(context).primaryColor
-                                        : Theme.of(
-                                            context,
-                                          ).appBarTheme.foregroundColor,
-                                  ),
-                                  label: const Text('Investement Tools'),
-                                ),
                               ],
                             ),
                           ),
@@ -116,47 +103,22 @@ class _RootShellState extends State<RootShell> {
                 preferredSize: Size.zero,
                 child: Row(
                   children: [
-                    Expanded(
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.calculate,
-                          color: _currentIndex == 0
-                              ? Theme.of(
-                                  context,
-                                ).buttonTheme.colorScheme?.primary
-                              : Theme.of(context).iconTheme.color,
+                    for (int i = 0; i < navIcons.length; i++)
+                      Expanded(
+                        child: IconButton(
+                          icon: Icon(
+                            navIcons[i].values.first,
+                            color: _currentIndex == i
+                                ? Theme.of(
+                                    context,
+                                  ).buttonTheme.colorScheme?.primary
+                                : Theme.of(context).iconTheme.color,
+                          ),
+                          onPressed: () => setState(() => _currentIndex = i),
                         ),
-                        onPressed: () => setState(() => _currentIndex = 0),
                       ),
-                    ),
-                    Expanded(
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.bolt,
-                          color: _currentIndex == 1
-                              ? Theme.of(
-                                  context,
-                                ).buttonTheme.colorScheme?.primary
-                              : Theme.of(context).iconTheme.color,
-                        ),
-                        onPressed: () => setState(() => _currentIndex = 1),
-                      ),
-                    ),
-                    Expanded(
-                      child: IconButton(
-                        icon: const Icon(Icons.money_sharp),
-                        color: _currentIndex == 2
-                            ? Theme.of(context).buttonTheme.colorScheme?.primary
-                            : Theme.of(context).iconTheme.color,
-                        onPressed: () => setState(() => _currentIndex = 2),
-                      ),
-                    ),
-                    Expanded(
-                      child: ThemeSelector(),
-                    ),
-                    Expanded(
-                      child: ColorThemeSelector(),
-                    ),
+                    const Expanded(child: ThemeSelector()),
+                    const Expanded(child: ColorThemeSelector()),
                   ],
                 ),
               ),
