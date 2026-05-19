@@ -8,9 +8,14 @@ class CalculatorProvider extends ChangeNotifier {
 
   String get equation => _equation;
   String get result => _result;
-  final HistoryProvider historyProvider;
-  
+  HistoryProvider historyProvider;
+
   CalculatorProvider({required this.historyProvider});
+
+  void updateHistoryProvider(HistoryProvider newProvider) {
+    historyProvider = newProvider; // rendre le champ non-final
+  }
+
   /// Handle button tap and update the equation and result accordingly
   /// @param buttonText the text of the button that was tapped
   void handleTap(String buttonText) {
@@ -53,17 +58,19 @@ class CalculatorProvider extends ChangeNotifier {
   }
 
   void _calculateResult() {
-    try {
-      String finalExpression = _equation.replaceAll('X', '*');
-      _result = _evaluateMathExpression(finalExpression);
-    } catch (e) {
+    String finalExpression = _equation.replaceAll('X', '*');
+    String res = _evaluateMathExpression(finalExpression);
+
+    if (res == "error") {
+      _equation = 'Erreur';
       _result = 'Erreur';
+    } else {
+      _result = res;
+      _equation = res;
     }
   }
 
   String _evaluateMathExpression(String expression) {
-
-
     try {
       String finalExpression = expression.replaceAll('X', '*');
       finalExpression = finalExpression.replaceAll(',', '.');
@@ -82,7 +89,6 @@ class CalculatorProvider extends ChangeNotifier {
       }
 
       historyProvider.addToHistory("Calculator", "$_equation = $r");
-      _equation = r;
 
       return r;
     } catch (e) {

@@ -11,7 +11,7 @@ class Calculator extends StatelessWidget {
     return Column(
       children: [
         ResultDisplay(),
-        Expanded(child: ChoosePad(type: 'calc')),
+        Expanded(child: ChoosePad(type: 'calc', prov: 'calc')),
       ],
     );
   }

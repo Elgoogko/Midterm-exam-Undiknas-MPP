@@ -1,5 +1,6 @@
 import 'package:basic_app/providers/calculator_provider.dart';
 import 'package:basic_app/providers/history_provider.dart';
+import 'package:basic_app/providers/length_converter_provider.dart';
 import 'package:basic_app/providers/theme_provider.dart';
 import 'package:basic_app/screens/root_shell.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,22 @@ void main() {
               listen: false,
             ),
           ),
-          update: (context, history, previousCalculator) =>
-              CalculatorProvider(historyProvider: history),
+          update: (context, history, previousCalculator) {
+            previousCalculator!.updateHistoryProvider(history);
+            return previousCalculator;
+          },
+        ),
+        ChangeNotifierProxyProvider<HistoryProvider, LengthConverterProvider>(
+          create: (context) => LengthConverterProvider(
+            historyProvider: Provider.of<HistoryProvider>(
+              context,
+              listen: false,
+            ),
+          ),
+          update: (context, history, previousLengthConverter) {
+            previousLengthConverter!.updateHistoryProvider(history);
+            return previousLengthConverter; // ← on garde la même instance
+          },
         ),
       ],
       child: const MainApp(),
@@ -29,7 +44,6 @@ void main() {
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
-
 
   @override
   Widget build(BuildContext context) {

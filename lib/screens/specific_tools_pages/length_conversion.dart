@@ -1,6 +1,8 @@
 import 'package:basic_app/components/calc_button.dart';
 import 'package:basic_app/components/common_app_bar.dart';
+import 'package:basic_app/providers/length_converter_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LengthConversion extends StatelessWidget {
   const LengthConversion({super.key});
@@ -8,7 +10,13 @@ class LengthConversion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    
+
+    String convertedValue = context
+        .watch<LengthConverterProvider>()
+        .convertedValue
+        .toString();
+    String equation = context.watch<LengthConverterProvider>().equation;
+
     return Scaffold(
       appBar: CommonAppBar(title: 'Length Conversion'),
       body: Column(
@@ -17,19 +25,24 @@ class LengthConversion extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 20,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       DropdownMenu(
+                        onSelected: (String? value) {
+                          if (value != null) {
+                            context.read<LengthConverterProvider>().setFromUnit(
+                              value,
+                            );
+                          }
+                        },
+
                         menuHeight: screenWidth * 0.1,
                         width: screenWidth * 0.4,
-                        dropdownMenuEntries: const [
+                        dropdownMenuEntries: [
                           DropdownMenuEntry(value: 'meters', label: 'Meters'),
                           DropdownMenuEntry(
                             value: 'kilometers',
@@ -39,7 +52,7 @@ class LengthConversion extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        "0",
+                        equation,
                         style: TextStyle(
                           fontSize: screenWidth * 0.04,
                           fontWeight: FontWeight.bold,
@@ -52,9 +65,16 @@ class LengthConversion extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       DropdownMenu(
+                        onSelected: (String? value) {
+                          if (value != null) {
+                            context.read<LengthConverterProvider>().setToUnit(
+                              value,
+                            );
+                          }
+                        },
                         menuHeight: screenWidth * 0.1,
                         width: screenWidth * 0.4,
-                        dropdownMenuEntries: const [
+                        dropdownMenuEntries: [
                           DropdownMenuEntry(value: 'meters', label: 'Meters'),
                           DropdownMenuEntry(
                             value: 'kilometers',
@@ -64,7 +84,7 @@ class LengthConversion extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        "0",
+                        convertedValue,
                         style: TextStyle(
                           fontSize: screenWidth * 0.04,
                           fontWeight: FontWeight.bold,
@@ -76,7 +96,10 @@ class LengthConversion extends StatelessWidget {
               ),
             ),
           ),
-          const Expanded(flex: 3, child: ChoosePad(type: 'classic')),
+          Expanded(
+            flex: 3,
+            child: ChoosePad(type: 'classic', prov: 'length'),
+          ),
         ],
       ),
     );

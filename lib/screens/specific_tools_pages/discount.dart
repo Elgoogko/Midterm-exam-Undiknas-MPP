@@ -40,7 +40,10 @@ class Discount extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          Expanded(flex: 3, child: ChoosePad(type: 'classic')),
+          Expanded(
+            flex: 3,
+            child: ChoosePad(type: 'classic', prov: 'oth'),
+          ),
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:basic_app/providers/calculator_provider.dart';
+import 'package:basic_app/providers/length_converter_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -60,8 +61,9 @@ class CalcButton extends StatelessWidget {
 
 class NumericPad extends StatelessWidget {
   final List<List<String>> rows;
+  final String provider;
 
-  const NumericPad({super.key, required this.rows});
+  const NumericPad({super.key, required this.rows, required this.provider});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +98,13 @@ class NumericPad extends StatelessWidget {
                                 ).buttonTheme.colorScheme?.surface ??
                                 Color(0xFFF0F0F0),
                       onTap: () {
-                        context.read<CalculatorProvider>().handleTap(btnText);
+                        provider == 'calc'
+                            ? context.read<CalculatorProvider>().handleTap(
+                                btnText,
+                              )
+                            : context.read<LengthConverterProvider>().handleTap(
+                                btnText,
+                              );
                       },
                     );
             }).toList(),
@@ -118,17 +126,21 @@ final List<List<String>> calcPad = [
 final List<List<String>> classicPad = [
   ['7', '8', '9', 'AC'],
   ['4', '5', '6', 'DEL'],
-  ['1', '2', '3', ''],
-  ['', '0', '.', ''],
+  ['1', '2', '3', '.'],
+  ['0', '00', '000', '='],
 ];
 
 class ChoosePad extends StatelessWidget {
   final String type;
+  final String prov;
 
-  const ChoosePad({super.key, required this.type});
+  const ChoosePad({super.key, required this.type, required this.prov});
 
   @override
   Widget build(BuildContext context) {
-    return NumericPad(rows: type == 'calc' ? calcPad : classicPad);
+    return NumericPad(
+      rows: type == 'calc' ? calcPad : classicPad,
+      provider: prov,
+    );
   }
 }
