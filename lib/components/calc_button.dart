@@ -16,35 +16,26 @@ class CalcButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     return Expanded(
-      child: AspectRatio(
-        aspectRatio: 1.0,
-        child: Container(
-          margin: const EdgeInsets.all(6),
-          child: InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(24),
-            child: Ink(
-              decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FittedBox(
-                    fit: BoxFit.fill,
-                    child: Text(
-                      text,
-                      style: TextStyle(
-                        fontSize: screenWidth * 0.07,
-                        fontWeight: screenWidth > 400
-                            ? FontWeight.bold
-                            : FontWeight.normal,
-                        color: textColor,
-                      ),
-                    ),
+      child: Container(
+        margin: const EdgeInsets.all(6),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(24),
+          child: Ink(
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Center(
+              child: FittedBox(
+                fit: BoxFit.scaleDown, // ← scaleDown au lieu de fill
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 24, // fixe, FittedBox s'en occupe
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
                   ),
                 ),
               ),

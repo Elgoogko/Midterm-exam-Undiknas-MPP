@@ -85,7 +85,12 @@ class DiscountProvider extends ChangeNotifier {
       if (_originalPriceString == '0') {
         _originalPriceString = digit;
       } else {
-        _originalPriceString += digit;
+        double temp = double.tryParse(_originalPriceString + digit) ?? 0.0;
+        if (temp >= 9999999) {
+          _originalPriceString = '9999999';
+        } else {
+          _originalPriceString += digit;
+        }
       }
     } else {
       if (_discountPercentageString == '0') {
@@ -94,6 +99,8 @@ class DiscountProvider extends ChangeNotifier {
         String temporary = _discountPercentageString + digit;
         if ((double.tryParse(temporary) ?? 0.0) <= 100.0) {
           _discountPercentageString = temporary;
+        } else {
+          _discountPercentageString = '100';
         }
       }
     }
@@ -118,8 +125,8 @@ class DiscountProvider extends ChangeNotifier {
     _debounceTimer = Timer(const Duration(milliseconds: 2000), () {
       if (originalPrice > 0 && discountPercentage > 0) {
         historyProvider.addToHistory(
-          "Calcul de Remise",
-          "Prix initial: ${originalPrice.toStringAsFixed(2)} € (-$discountPercentage%) ➔ Final: ${_finalResult.toStringAsFixed(2)} € (Économie: ${_savedAmount.toStringAsFixed(2)} €)",
+          "Discount",
+          "Original Price: ${originalPrice.toStringAsFixed(2)} € (-$discountPercentage%) ➔ Final: ${_finalResult.toStringAsFixed(2)} € (Saved: ${_savedAmount.toStringAsFixed(2)} €)",
         );
       }
     });

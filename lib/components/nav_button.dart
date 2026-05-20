@@ -16,7 +16,7 @@ class NavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    double screenShortest = MediaQuery.of(context).size.shortestSide;
 
     return Expanded(
       child: AspectRatio(
@@ -33,15 +33,17 @@ class NavButton extends StatelessWidget {
                   children: [
                     Icon(
                       icon,
-                      size: screenWidth * 0.07,
+                      size: screenShortest * 0.09,
                       color: Theme.of(context).iconTheme.color,
                     ),
                     const SizedBox(height: 4),
                     Text(
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                       text,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: screenWidth * 0.05,
+                        fontSize: screenShortest * 0.07,
                         fontWeight: FontWeight.bold,
                         color:
                             Theme.of(context).textTheme.bodyMedium?.color ??
@@ -66,23 +68,28 @@ class BuildPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: rows.map((row) {
-        return Expanded(
-          child: Row(
-            children: row.map((btnText) {
-              return NavButton(
-                text: btnText.$1,
-                icon: btnText.$2,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => btnText.$3),
-                ),
-              );
-            }).toList(),
-          ),
-        );
-      }).toList(),
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: rows.map((row) {
+            return Expanded(
+              child: Row(
+                children: row.map((btnText) {
+                  return NavButton(
+                    text: btnText.$1,
+                    icon: btnText.$2,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => btnText.$3),
+                    ),
+                  );
+                }).toList(),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 }

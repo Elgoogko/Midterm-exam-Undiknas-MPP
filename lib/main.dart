@@ -118,7 +118,7 @@ class MainApp extends StatelessWidget {
         ),
       ),
       themeMode: Provider.of<ThemeProvider>(context).themeMode,
-      home: const RootShell(),
+      home: RootShell(),
     );
   }
 }

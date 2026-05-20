@@ -5,8 +5,8 @@ class LengthConverterProvider extends ChangeNotifier {
   String _fromUnit = 'meters';
   String _toUnit = 'kilometers';
   double _inputValue = 0.0;
-  String _equation = '';
-  double _convertedValue = 0.0;
+  String _equation = '0';
+  double _convertedValue = 0;
 
   String get fromUnit => _fromUnit;
   String get toUnit => _toUnit;
@@ -32,11 +32,6 @@ class LengthConverterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void haleTap(String value) {
-    _inputValue = double.tryParse(value) ?? 0.0;
-    notifyListeners();
-  }
-
   void handleTap(String buttonText) {
     if (buttonText == 'AC') {
       _equation = '';
@@ -50,7 +45,22 @@ class LengthConverterProvider extends ChangeNotifier {
       _convertAndSave();
       return;
     } else {
-      _equation += buttonText;
+      if (buttonText == '.' || buttonText == ',') {
+        if (!_equation.contains('.')) {
+          _equation += '.';
+        }
+      } else {
+        if (_equation == '0') {
+          _equation = buttonText;
+        } else {
+          double temp = double.tryParse(_equation + buttonText) ?? 0.0;
+          if (temp >= 9999999) {
+            _equation = '9999999';
+          } else {
+            _equation += buttonText;
+          }
+        }
+      }
     }
 
     notifyListeners();
@@ -60,12 +70,10 @@ class LengthConverterProvider extends ChangeNotifier {
     double valueInMeters = _convertToMeters(_inputValue, _fromUnit);
     _convertedValue = _convertFromMeters(valueInMeters, _toUnit);
 
-    // addToHistory en dernier, après que l'état est stable
     historyProvider.addToHistory(
       "Converter",
       "$_inputValue $_fromUnit to $_convertedValue $_toUnit",
     );
-    // PAS de notifyListeners() ici
   }
 
   double _convertToMeters(double value, String unit) {

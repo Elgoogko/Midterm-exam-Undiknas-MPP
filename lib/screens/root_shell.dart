@@ -35,8 +35,8 @@ class _RootShellState extends State<RootShell> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWideScreen = constraints.maxWidth > 600;
-
         if (isWideScreen) {
+          // Vertical NavigationRail for wide screens
           return Scaffold(
             body: Row(
               children: [
@@ -53,31 +53,34 @@ class _RootShellState extends State<RootShell> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Expanded(
-                            child: NavigationRail(
-                              backgroundColor: Theme.of(
-                                context,
-                              ).appBarTheme.backgroundColor,
-                              selectedIndex: _currentIndex,
-                              onDestinationSelected: (index) {
-                                setState(() => _currentIndex = index);
-                              },
-                              destinations: [
-                                for (int i = 0; i < navIcons.length; i++)
-                                  NavigationRailDestination(
-                                    icon: Icon(
-                                      navIcons[i].values.first,
-                                      color: _currentIndex == i
-                                          ? Theme.of(context).primaryColor
-                                          : Theme.of(
-                                              context,
-                                            ).appBarTheme.foregroundColor,
-                                    ),
-                                    label: Text(navIcons[i].keys.first),
-                                  ),
-                              ],
+                            child: SingleChildScrollView(
+                              child: IntrinsicHeight(
+                                child: NavigationRail(
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).appBarTheme.backgroundColor,
+                                  selectedIndex: _currentIndex,
+                                  onDestinationSelected: (index) {
+                                    setState(() => _currentIndex = index);
+                                  },
+                                  destinations: [
+                                    for (int i = 0; i < navIcons.length; i++)
+                                      NavigationRailDestination(
+                                        icon: Icon(
+                                          navIcons[i].values.first,
+                                          color: _currentIndex == i
+                                              ? Theme.of(context).primaryColor
+                                              : Theme.of(
+                                                  context,
+                                                ).appBarTheme.foregroundColor,
+                                        ),
+                                        label: Text(navIcons[i].keys.first),
+                                      ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                          const Divider(),
                           Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -97,6 +100,7 @@ class _RootShellState extends State<RootShell> {
             ),
           );
         } else {
+          // Horizontal AppBar for narrow screens
           return Scaffold(
             appBar: AppBar(
               bottom: PreferredSize(
