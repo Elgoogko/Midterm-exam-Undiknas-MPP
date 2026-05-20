@@ -98,7 +98,11 @@ class LengthConversion extends StatelessWidget {
           ),
           Expanded(
             flex: 3,
-            child: ChoosePad(type: 'classic', prov: 'length'),
+            child: ChoosePad(
+              type: 'classic',
+              onButtonTap: (btnText) =>
+                  context.read<LengthConverterProvider>().handleTap(btnText),
+            ),
           ),
         ],
       ),

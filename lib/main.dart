@@ -1,4 +1,5 @@
 import 'package:basic_app/providers/calculator_provider.dart';
+import 'package:basic_app/providers/discount_provider.dart';
 import 'package:basic_app/providers/history_provider.dart';
 import 'package:basic_app/providers/length_converter_provider.dart';
 import 'package:basic_app/providers/theme_provider.dart';
@@ -34,6 +35,18 @@ void main() {
           update: (context, history, previousLengthConverter) {
             previousLengthConverter!.updateHistoryProvider(history);
             return previousLengthConverter; // ← on garde la même instance
+          },
+        ),
+        ChangeNotifierProxyProvider<HistoryProvider, DiscountProvider>(
+          create: (context) => DiscountProvider(
+            historyProvider: Provider.of<HistoryProvider>(
+              context,
+              listen: false,
+            ),
+          ),
+          update: (context, history, previousDiscount) {
+            previousDiscount!.updateHistoryProvider(history);
+            return previousDiscount; // ← on garde la même instance
           },
         ),
       ],

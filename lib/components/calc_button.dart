@@ -1,7 +1,4 @@
-import 'package:basic_app/providers/calculator_provider.dart';
-import 'package:basic_app/providers/length_converter_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class CalcButton extends StatelessWidget {
   final String text;
@@ -61,9 +58,9 @@ class CalcButton extends StatelessWidget {
 
 class NumericPad extends StatelessWidget {
   final List<List<String>> rows;
-  final String provider;
+  final ValueSetter<String> onButtonTap;
 
-  const NumericPad({super.key, required this.rows, required this.provider});
+  const NumericPad({super.key, required this.rows, required this.onButtonTap});
 
   @override
   Widget build(BuildContext context) {
@@ -98,13 +95,7 @@ class NumericPad extends StatelessWidget {
                                 ).buttonTheme.colorScheme?.surface ??
                                 Color(0xFFF0F0F0),
                       onTap: () {
-                        provider == 'calc'
-                            ? context.read<CalculatorProvider>().handleTap(
-                                btnText,
-                              )
-                            : context.read<LengthConverterProvider>().handleTap(
-                                btnText,
-                              );
+                        onButtonTap(btnText);
                       },
                     );
             }).toList(),
@@ -115,32 +106,42 @@ class NumericPad extends StatelessWidget {
   }
 }
 
-final List<List<String>> calcPad = [
-  ['AC', 'DEL', '%', '/'],
-  ['7', '8', '9', 'X'],
-  ['4', '5', '6', '-'],
-  ['1', '2', '3', '+'],
-  ['0', ',', '.', '='],
-];
-
-final List<List<String>> classicPad = [
-  ['7', '8', '9', 'AC'],
-  ['4', '5', '6', 'DEL'],
-  ['1', '2', '3', '.'],
-  ['0', '00', '000', '='],
-];
-
 class ChoosePad extends StatelessWidget {
   final String type;
-  final String prov;
+  final ValueSetter<String> onButtonTap;
 
-  const ChoosePad({super.key, required this.type, required this.prov});
+  const ChoosePad({super.key, required this.type, required this.onButtonTap});
 
   @override
   Widget build(BuildContext context) {
+    final List<List<String>> calcPad = [
+      ['AC', 'DEL', '%', '/'],
+      ['7', '8', '9', 'X'],
+      ['4', '5', '6', '-'],
+      ['1', '2', '3', '+'],
+      ['0', ',', '.', '='],
+    ];
+
+    final List<List<String>> classicPad = [
+      ['7', '8', '9', 'AC'],
+      ['4', '5', '6', 'DEL'],
+      ['1', '2', '3', '.'],
+      ['0', '00', '000', '='],
+    ];
+
+    final List<List<String>> discountPad = [
+      ['7', '8', '9', 'AC'],
+      ['4', '5', '6', 'DEL'],
+      ['1', '2', '3', ''],
+      ['0', '00', '000', '.'],
+    ];
     return NumericPad(
-      rows: type == 'calc' ? calcPad : classicPad,
-      provider: prov,
+      rows: type == 'calc'
+          ? calcPad
+          : type == 'discount'
+          ? discountPad
+          : classicPad,
+      onButtonTap: onButtonTap,
     );
   }
 }
